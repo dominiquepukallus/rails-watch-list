@@ -64,3 +64,4 @@ gem "simple_form"
 
 gem "tailwindcss-rails", "~> 4.4"
 gem "faker"
+gem "dotenv-rails"
