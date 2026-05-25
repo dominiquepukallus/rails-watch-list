@@ -18,7 +18,11 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-10">
   <% @lists.each do |list| %>
     <%= link_to list_path(list), class: "block overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition" do %>
-    <img class="w-full h-48 object-cover" src="" alt="">
+    <% if list.photo.attached? %>
+      <%= cl_image_tag list.photo.key, class: "object-cover" %>
+    <% else %>
+        <%= image_tag "curtains.jpg", class: "object-cover" %>
+      <% end %>
       <div class="px-6 py-4">
         <div class="font-bold text-xl">
           <%= list.name %>

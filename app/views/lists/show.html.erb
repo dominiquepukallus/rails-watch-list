@@ -1,18 +1,45 @@
-<h2><%= @list.name %></h2>
-
-<br>
-
-<ul>
-  <% @list.movies.each do |movie| %>
-  <li>
-    <strong><%= movie.title %></strong>
-    <p><%= movie.overview %></p>
-    <%= link_to "Delete bookmark", bookmark_path,
-    data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-  </li>
+<div class="relative w-full h-32 sm:h-40 lg:h-56 overflow-hidden shadow-lg">
+  <% if @list.photo.attached? %>
+    <%= cl_image_tag @list.photo.key, class: "w-full h-full object-cover" %>
   <% end %>
-</ul>
+    <div class="px-6 py-4 flex justify-center content-center">
+      <div class="font-bold text-3xl mb-2"><%= @list.name %></div>
+    </div>
+</div>
+
+
+<div class="px-6 py-4 flex items-center justify-between mx-10 mt-4">
+    <%= link_to "Back to list",
+        lists_path,
+        class: "inline-flex items-center rounded-md bg-rose-500 px-4 py-2 text-white font-semibold hover:bg-rose-600 transition" %>
+
+  <%= link_to "Create new bookmark",
+        new_list_bookmark_path(@list),
+        class: "inline-flex items-center rounded-md bg-rose-500 px-4 py-2 text-white font-semibold hover:bg-rose-600 transition" %>
+</div>
 
 <br>
-<%= link_to "Create new bookmark", new_list_bookmark_path(@list) %>
-<%= link_to "Back to lists", lists_path %>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-10">
+  <% @list.bookmarks.each do |bookmark| %>
+    <% movie = bookmark.movie %>
+
+    <div class="rounded-lg shadow-lg overflow-hidden">
+      <%= image_tag movie.poster_url, class: "w-full h-45 object-cover" %>
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">
+          <%= movie.title %>
+        </div>
+        <p class="text-sm text-gray-600 mb-4">
+          <%= movie.overview %>
+        </p>
+        <%= link_to "Delete bookmark", bookmark_path,
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?"
+            },
+            class: "text-red-600 text-sm hover:underline" %>
+      </div>
+    </div>
+  <% end %>
+</div>
